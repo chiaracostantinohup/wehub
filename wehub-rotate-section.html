@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeHub — Sezione Animata</title>
+  <link href="https://fonts.cdnfonts.com/css/general-sans" rel="stylesheet">
+  <style>
+    :root {
+      --white: #FFFFFF;
+      --blue: #204496;
+      --blue-light: #508EC9;
+      --pink: #F90086;
+      --black: #1A1A1A;
+      --gray: #6B6B6B;
+      --font: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius-lg: 40px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: var(--font);
+      color: var(--black);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── Demo spacers (rimuovi in produzione) ── */
+    .spacer {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .spacer p {
+      font-size: 16px;
+      color: var(--gray);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ══════════════════════════════════════════
+       ROTATE SECTION
+       ══════════════════════════════════════════ */
+    .rotate-section {
+      position: relative;
+      height: 100vh;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .rotate-label {
+      position: absolute;
+      top: 64px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray);
+      opacity: 0;
+    }
+
+    .rotate-stage {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 1200px;
+      padding: 0 40px;
+    }
+
+    /* Left word */
+    .rotate-left {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      padding-right: 52px;
+      height: 130px;
+      overflow: hidden;
+      position: relative;
+    }
+    .rotate-left .word {
+      font-weight: 500;
+      font-size: 108px;
+      line-height: 130px;
+      letter-spacing: -0.035em;
+      color: var(--black);
+      position: absolute;
+      right: 52px;
+      top: 0;
+      white-space: nowrap;
+      will-change: transform, opacity;
+    }
+
+    /* Center image */
+    .rotate-center {
+      width: 260px;
+      height: 320px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .rotate-center .slide {
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      will-change: transform, opacity;
+    }
+    .rotate-center .slide span {
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      text-align: center;
+      padding: 20px;
+    }
+    .slide-0 { background: var(--blue); }
+    .slide-1 { background: var(--blue-light); }
+    .slide-2 { background: linear-gradient(160deg, var(--blue) 30%, var(--blue-light) 100%); }
+    .slide-3 { background: var(--pink); }
+    .slide-4 { background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 50%, var(--pink) 100%); }
+
+    /* Right word */
+    .rotate-right {
+      flex: 1;
+      display: flex;
+      justify-content: flex-start;
+      padding-left: 52px;
+      height: 130px;
+      overflow: hidden;
+      position: relative;
+    }
+    .rotate-right .word {
+      font-weight: 500;
+      font-size: 108px;
+      line-height: 130px;
+      letter-spacing: -0.035em;
+      position: absolute;
+      left: 52px;
+      top: 0;
+      white-space: nowrap;
+      will-change: transform, opacity;
+    }
+
+    .c-blue { color: var(--blue); }
+    .c-blue-light { color: var(--blue-light); }
+    .c-pink { color: var(--pink); }
+
+    /* Progress dots */
+    .rotate-dots {
+      position: absolute;
+      bottom: 52px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      opacity: 0;
+    }
+    .rotate-dots .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--black);
+      opacity: 0.1;
+      transition: opacity 0.35s, transform 0.35s, background 0.35s;
+    }
+    .rotate-dots .dot.on {
+      opacity: 0.45;
+      transform: scale(1.35);
+    }
+    .rotate-dots .dot.brand {
+      background: var(--blue);
+      opacity: 0.75;
+      transform: scale(1.5);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Spacer prima (demo) -->
+<div class="spacer" style="background: #F5F3EF;">
+  <p>↓ Scrolla per raggiungere l'animazione ↓</p>
+</div>
+
+<!-- ══════════════════════════════════════════
+     ROTATE SECTION
+     ══════════════════════════════════════════ -->
+<section class="rotate-section" id="rotate">
+
+  <p class="rotate-label" id="lbl">Il nostro approccio</p>
+
+  <div class="rotate-stage">
+
+    <div class="rotate-left">
+      <div class="word" id="L0">Noi</div>
+      <div class="word" id="L1" style="opacity:0; transform:translateY(100%);">We</div>
+    </div>
+
+    <div class="rotate-center">
+      <div class="slide slide-0" id="S0"><span>Foto — Costruire</span></div>
+      <div class="slide slide-1" id="S1" style="opacity:0; transform:scale(.85);"><span>Foto — Innovazione</span></div>
+      <div class="slide slide-2" id="S2" style="opacity:0; transform:scale(.85);"><span>Foto — Protezione</span></div>
+      <div class="slide slide-3" id="S3" style="opacity:0; transform:scale(.85);"><span>Foto — Guida</span></div>
+      <div class="slide slide-4" id="S4" style="opacity:0; transform:scale(.85);"><span>WeHub</span></div>
+    </div>
+
+    <div class="rotate-right">
+      <div class="word c-blue" id="R0">costruiamo.</div>
+      <div class="word c-blue-light" id="R1" style="opacity:0; transform:translateY(100%);">innoviamo.</div>
+      <div class="word c-blue" id="R2" style="opacity:0; transform:translateY(100%);">proteggiamo.</div>
+      <div class="word c-pink" id="R3" style="opacity:0; transform:translateY(100%);">guidiamo.</div>
+      <div class="word c-blue" id="R4" style="opacity:0; transform:translateY(100%);">Hub.</div>
+    </div>
+
+  </div>
+
+  <div class="rotate-dots" id="dots">
+    <div class="dot on"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+</section>
+
+<!-- Spacer dopo (demo) -->
+<div class="spacer" style="background: #F5F3EF;">
+  <p>↑ Animazione completata ↑</p>
+</div>
+
+
+<!-- GSAP (free CDN) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+
+<script>
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+/* ═══════════════════════════════════════════
+   SCROLL LOCK
+   ═══════════════════════════════════════════ */
+function preventScroll(e) { e.preventDefault(); }
+function preventKeys(e) {
+  if ([32, 33, 34, 35, 36, 37, 38, 39, 40].includes(e.keyCode)) e.preventDefault();
+}
+
+function lockScroll() {
+  window.addEventListener('wheel', preventScroll, { passive: false });
+  window.addEventListener('touchmove', preventScroll, { passive: false });
+  window.addEventListener('keydown', preventKeys, { passive: false });
+}
+
+function unlockScroll() {
+  window.removeEventListener('wheel', preventScroll);
+  window.removeEventListener('touchmove', preventScroll);
+  window.removeEventListener('keydown', preventKeys);
+}
+
+/* ═══════════════════════════════════════════
+   ELEMENTS
+   ═══════════════════════════════════════════ */
+const $ = id => document.getElementById(id);
+
+const L    = [$('L0'), $('L1')];          // left words: Noi, We
+const R    = [0,1,2,3,4].map(i => $('R'+i)); // right words
+const S    = [0,1,2,3,4].map(i => $('S'+i)); // slides
+const dotE = document.querySelectorAll('#dots .dot');
+const lbl  = $('lbl');
+const dotsW = $('dots');
+
+function setDot(i, final) {
+  dotE.forEach((d, idx) => {
+    d.className = 'dot' + (idx === i ? (final ? ' brand' : ' on') : '');
+  });
+}
+
+/* ═══════════════════════════════════════════
+   TRANSITION: swap right word + slide
+   ═══════════════════════════════════════════ */
+function addSwap(tl, cfg) {
+  const t = cfg.at;
+
+  // OUT: right word
+  tl.to(R[cfg.from], { y: '-100%', opacity: 0, duration: 0.32, ease: 'power3.in' }, t);
+  // OUT: slide
+  tl.to(S[cfg.from], { opacity: 0, scale: 0.88, duration: 0.28, ease: 'power2.in' }, t);
+
+  // OUT: left word (only on final step)
+  if (cfg.leftSwap) {
+    tl.to(L[0], { y: '-100%', opacity: 0, duration: 0.32, ease: 'power3.in' }, t);
+  }
+
+  // IN: right word
+  tl.fromTo(R[cfg.to],
+    { y: '100%', opacity: 0 },
+    { y: '0%',   opacity: 1, duration: 0.38, ease: 'power3.out' },
+    t + 0.18
+  );
+  // IN: slide
+  tl.fromTo(S[cfg.to],
+    { opacity: 0, scale: 0.84, y: 10 },
+    { opacity: 1, scale: 1,    y: 0, duration: 0.42, ease: 'power2.out' },
+    t + 0.16
+  );
+
+  // IN: left word (final)
+  if (cfg.leftSwap) {
+    tl.fromTo(L[1],
+      { y: '100%', opacity: 0 },
+      { y: '0%',   opacity: 1, duration: 0.38, ease: 'power3.out' },
+      t + 0.18
+    );
+  }
+
+  // Dot
+  tl.call(() => setDot(cfg.to, cfg.final || false), null, t + 0.22);
+}
+
+/* ═══════════════════════════════════════════
+   BUILD TIMELINE  (total ≈ 8.5s)
+   ═══════════════════════════════════════════
+
+   t=0.0  Fade in label + dots
+   t=0.0  "Noi costruiamo" already visible (hold ~1.5s)
+   t=1.5  swap → innoviamo
+   t=3.2  swap → proteggiamo
+   t=4.9  swap → guidiamo
+   t=6.6  swap → We Hub (final)
+   t=8.2  hold final ~1.3s
+   t=9.5  unlock
+   ═══════════════════════════════════════════ */
+const tl = gsap.timeline({ paused: true });
+
+// Fade in UI chrome
+tl.to(lbl,   { opacity: 1, duration: 0.4 }, 0);
+tl.to(dotsW, { opacity: 1, duration: 0.4 }, 0.1);
+
+// Step 1: costruiamo → innoviamo
+addSwap(tl, { at: 1.5, from: 0, to: 1 });
+
+// Step 2: innoviamo → proteggiamo
+addSwap(tl, { at: 3.2, from: 1, to: 2 });
+
+// Step 3: proteggiamo → guidiamo
+addSwap(tl, { at: 4.9, from: 2, to: 3 });
+
+// Step 4: guidiamo → We Hub (final reveal)
+addSwap(tl, { at: 6.6, from: 3, to: 4, leftSwap: true, final: true });
+
+// Hold final, then unlock
+tl.call(() => {
+  unlockScroll();
+}, null, 9.0);
+
+/* ═══════════════════════════════════════════
+   TRIGGER — fires once, never replays
+   ═══════════════════════════════════════════ */
+let fired = false;
+
+ScrollTrigger.create({
+  trigger: '#rotate',
+  start: 'top 60%',
+  once: true,
+  onEnter() {
+    if (fired) return;
+    fired = true;
+
+    // Smooth scroll to pin the section at top of viewport
+    gsap.to(window, {
+      scrollTo: { y: '#rotate', offsetY: 0 },
+      duration: 0.45,
+      ease: 'power2.inOut',
+      onComplete() {
+        lockScroll();
+        tl.play();
+      }
+    });
+  }
+});
+</script>
+
+</body>
+</html>
